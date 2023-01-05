@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bbs.board.mapper.BoardMapper">
+    <select id="getBoardList" resultType="java.util.HashMap">
+        SELECT POST_TITLE
+             , CREATE_USER
+             , CREATE_DATE
+        FROM POST
+    </select>
+
+    <select id="getBoardCount" resultType="int">
+        SELECT COUNT(*) AS CNT
+        FROM POST
+    </select>
+
+    <insert id="addBoard" parameterType="java.util.HashMap">
+        INSERT
+        INTO POST
+        (
+            BOARD_ID,
+            POST_ID,
+            POST_TYPE,
+            POST_TITLE,
+            POST_CONTENT,
+            VIEW_CNT,
+            DELETED,
+            FILE_NO1,
+            FILE_NO2,
+            CREATE_DATE,
+            CREATE_USER,
+            UPDATE_DATE,
+            UPDATE_USER
+        )
+        VALUES
+        (
+            '1',
+            (
+                SELECT MAX(NVL(TO_NUMBER(POST_ID), 0)) + 1
+                FROM POST
+            ),
+            '1',
+            #{postTitle},
+            #{postContent},
+            '0',
+            NULL,
+            NULL,
+            NULL,
+            TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+            #{loginUser},
+            TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+            #{loginUser}
+        )
+    </insert>
+
+    <update id="updateBoard" parameterType="java.util.HashMap">
+        UPDATE POST
+        SET POST_TITLE = #{postTitle},
+            POST_CONTENT = #{postContent},
+            UPDATE_DATE = TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+            UPDATE_USER = #{loginUser}
+        WHERE POST_ID = #{postId}
+    </update>
+
+    <delete id="deleteBoard" parameterType="java.util.HashMap">
+        DELETE
+        FROM POST
+        WHERE POST_ID = #{postId}
+    </delete>
+</mapper>
