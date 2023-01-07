@@ -1,6 +1,7 @@
 package com.bbs.board.controller;
 
 import com.bbs.board.service.BoardService;
+import com.bbs.board.vo.BoardVO;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,24 @@ public class BoardController {
     BoardService boardService;
 
     @GetMapping
-    public Map<String, Object> getBoardList(){
+    public Map<String, Object> getBoardList(
+            @RequestParam String postTitle,
+            @RequestParam String createUser
+    ){
 
         Map<String, Object> result = new HashMap<String, Object>();
 
         try {
-            result.put("boardList", boardService.getBoardList());
-            result.put("boardCount", boardService.getBoardCount());
+            BoardVO postParam = new BoardVO();
+
+            postParam.setPostTitle(postTitle);
+            postParam.setCreateUser(createUser);
+
+            result.put("boardList", boardService.getBoardList(postParam));
+            result.put("boardCount", boardService.getBoardCount(postParam));
             result.put("status", 202);
+
+
         } catch(Exception e) {
             result.put("status", 404);
             log.error("getBoarListError:", e.getMessage());
@@ -34,7 +45,7 @@ public class BoardController {
     }
 
     @PostMapping
-    public Map<String, Object> addBoard(@RequestBody Map<String, Object> param){
+    public Map<String, Object> addBoard(@RequestBody BoardVO param){
         Map<String, Object> result = new HashMap<String, Object>();
         try {
             boardService.addBoard(param);
@@ -48,7 +59,7 @@ public class BoardController {
     }
 
     @PutMapping
-    public Map<String, Object> updateBoard(@RequestBody Map<String, Object> param){
+    public Map<String, Object> updateBoard(@RequestBody BoardVO param){
         Map<String, Object> result = new HashMap<String, Object>();
         try {
             boardService.updateBoard(param);
@@ -62,7 +73,7 @@ public class BoardController {
     }
 
     @DeleteMapping
-    public Map<String, Object> deleteBoard(@RequestBody Map<String, Object> param){
+    public Map<String, Object> deleteBoard(@RequestBody BoardVO param){
         Map<String, Object> result = new HashMap<String, Object>();
         try {
             boardService.deleteBoard(param);

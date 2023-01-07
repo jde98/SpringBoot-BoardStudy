@@ -1,6 +1,7 @@
 package com.bbs.board.service;
 
 import com.bbs.board.mapper.BoardMapper;
+import com.bbs.board.vo.BoardVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,27 +15,27 @@ public class BoardServiceImpl implements BoardService {
     BoardMapper boardMapper;
 
     @Override
-    public List<Map<String, Object>> getBoardList() {
-        return boardMapper.getBoardList();
+    public List<Map<String, Object>> getBoardList(BoardVO postParam) {
+        return boardMapper.getBoardList(postParam);
     }
 
     @Override
-    public int getBoardCount() {
-        return boardMapper.getBoardCount();
+    public int getBoardCount(BoardVO postParam) {
+        return boardMapper.getBoardCount(postParam);
     }
 
     @Override
-    public void addBoard(Map<String, Object> boardParam) {
+    public void addBoard(BoardVO boardParam) {
         boardMapper.addBoard(boardParam);
     }
 
     @Override
-    public void updateBoard(Map<String, Object> boardParam) {
+    public void updateBoard(BoardVO boardParam) {
         boardMapper.updateBoard(boardParam);
     }
 
     @Override
-    public void deleteBoard(Map<String, Object> boardParam) {
+    public void deleteBoard(BoardVO boardParam) {
         boardMapper.deleteBoard(boardParam);
     }
 

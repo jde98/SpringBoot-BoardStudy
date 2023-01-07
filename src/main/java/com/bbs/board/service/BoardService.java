@@ -1,14 +1,16 @@
 package com.bbs.board.service;
 
+import com.bbs.board.vo.BoardVO;
+
 import java.util.List;
 import java.util.Map;
 
 public interface BoardService {
-    List<Map<String, Object>> getBoardList();
+    List<Map<String, Object>> getBoardList(BoardVO postParam);
 
-    int getBoardCount();
+    int getBoardCount(BoardVO postParam);
 
-    void addBoard(Map<String, Object> boardParam);
-    void updateBoard(Map<String, Object> boardParam);
-    void deleteBoard(Map<String, Object> boardParam);
+    void addBoard(BoardVO boardParam);
+    void updateBoard(BoardVO boardParam);
+    void deleteBoard(BoardVO boardParam);
 }
