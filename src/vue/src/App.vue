@@ -1,27 +1,22 @@
 <template>
-  <v-app>
-    <core-app-bar></core-app-bar>
-    <core-view></core-view>
-    <core-footer author="jaeho"></core-footer>
-  </v-app>
+  <div id="app">
+    <router-link to="/">main</router-link>
+    <router-link to="/login">info</router-link>
+    <!-- convert -->
+    <!-- <a href="#/main" class="">main</a> -->
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-import CoreAppBar from './components/core/AppBar';
-import CoreView from './components/core/View';
-import CoreFooter from './components/core/Footer';
 
 export default {
   name: 'App',
-
   components: {
-    CoreAppBar,
-    CoreView,
-    CoreFooter
-  },
 
-  data: () => ({
-    //
-  }),
-};
+  }
+}
 </script>
+
+<style>
+</style>
