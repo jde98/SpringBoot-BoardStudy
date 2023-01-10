@@ -6,10 +6,10 @@
     
     <sql id="boardWhere">
         <where>
-            <if test="@com.bbs.util.CommonUtil@isEmpty(postTitle)">
+            <if test="postTitle != null and postTitle != ''">
                 AND POST_TITLE = #{postTitle}
             </if>
-            <if test="@com.bbs.util.CommonUtil@isEmpty(createUser)">
+            <if test="createUser != null and createUser != ''">
                 AND CREATE_USER = #{createUser}
             </if>
         </where>
