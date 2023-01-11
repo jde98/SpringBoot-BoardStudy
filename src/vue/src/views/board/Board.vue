@@ -1,7 +1,10 @@
 <template>
   <div>
-    <board-table v-if="boardCount !== 0" :board-list="boardList" />
-    <div v-if="boardCount === 0">조회된 데이터가 없습니다.</div>
+    {{this.title}}
+    {{this.count}}
+    <button @click="this.setTitle">test</button>
+    <board-table v-if="this.count !== 0" :board-list="this.list" />
+    <div v-if="this.count === 0">조회된 데이터가 없습니다.</div>
     <input type="text" v-model="inputText">
     <select v-model="selectVal">
       <option value="1">test</option>
@@ -12,8 +15,8 @@
 
 <script>
 
-import axios from 'axios';
 import BoardTable from '../../components/Table'
+import {mapState} from 'vuex';
 
 export default {
   name: 'boardList',
@@ -22,31 +25,28 @@ export default {
   },
   data () {
     return {
-      boardList : [],
-      boardCount : 0,
       inputText : "",
       selectVal : ""
     }
   },
+  computed: {
+    ...mapState(["title", "list", "count"])
+  },
   mounted() {
     this.getBoardList();
 
-    setInterval(() => {
-      console.log(this.inputText);
-      console.log("selectVal", this.selectVal);
-    }, 1000);
+    // setInterval(() => {
+    //   console.log(this.inputText);
+    //   console.log("selectVal", this.selectVal);
+    // }, 1000);
 
   },
   methods : {
     async getBoardList() {
-      let res = await axios.get("http://localhost/board?postTitle=&createUser=");
-
-      if (res.data.status === 202) {
-        console.log(res.data.boardList)
-        console.log(res.data.boardCount)
-        this.boardList = res.data.boardList;
-        this.boardCount = res.data.boardCount;
-      }
+      await this.$store.dispatch("getBoardList");
+    },
+    setTitle() {
+      this.$store.commit("setTitle", "정다은타이틀");
     }
   }
 }
